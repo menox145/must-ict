@@ -63,6 +63,32 @@
                                                         class="badge bg-info text-decoration-none">
                                                         <i class="bi bi-eye"></i> Detail
                                                     </a>
+
+                                                    @if (Auth::user()->is_admin)
+                                                        @if ($pinjam->status == 'dipinjam')
+                                                            <form action="{{ route('pinjam.update-status', $pinjam->id) }}" method="POST"
+                                                                class="d-inline">
+                                                                @csrf
+                                                                @method('PATCH')
+                                                                <input type="hidden" name="status" value="dikembalikan">
+                                                                <button type="submit" class="badge bg-success border-0"
+                                                                    onclick="return confirm('Ubah status menjadi dikembalikan?')">
+                                                                    <i class="bi bi-check-circle"></i> Dikembalikan
+                                                                </button>
+                                                            </form>
+                                                        @elseif ($pinjam->status == 'dikembalikan')
+                                                            <form action="{{ route('pinjam.update-status', $pinjam->id) }}" method="POST"
+                                                                class="d-inline">
+                                                                @csrf
+                                                                @method('PATCH')
+                                                                <input type="hidden" name="status" value="dipinjam">
+                                                                <button type="submit" class="badge bg-warning border-0"
+                                                                    onclick="return confirm('Ubah status menjadi dipinjam?')">
+                                                                    <i class="bi bi-arrow-counterclockwise"></i> Dipinjam
+                                                                </button>
+                                                            </form>
+                                                        @endif
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach

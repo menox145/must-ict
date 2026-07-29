@@ -52,6 +52,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/pinjam', [PinjamController::class, 'index'])->name('pinjam.index');
     Route::get('/pinjam/{pinjam}', [PinjamController::class, 'show'])->name('pinjam.show');
+    Route::patch('/pinjam/{pinjam}/status', [PinjamController::class, 'updateStatus'])->name('pinjam.update-status');
     Route::post('/pinjam/{pinjam}/return', [PinjamController::class, 'return'])->name('pinjam.return');
     Route::delete('/pinjam/{pinjam}', [PinjamController::class, 'destroy'])->name('pinjam.destroy');
 });

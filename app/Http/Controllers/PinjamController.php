@@ -133,6 +133,51 @@ class PinjamController extends Controller
         return redirect('/pinjam')->with('success', 'Barang berhasil dikembalikan!');
     }
 
+    public function updateStatus(Request $request, Peminjaman $pinjam)
+    {
+        // Check if user is logged in first
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        if (!Auth::user()->is_admin) {
+            abort(403, 'Unauthorized');
+        }
+
+        $validatedData = $request->validate([
+            'status' => 'required|in:dipinjam,dikembalikan',
+        ]);
+
+        $newStatus = $validatedData['status'];
+
+        if ($pinjam->status === $newStatus) {
+            return back()->with('success', 'Status peminjaman tidak berubah.');
+        }
+
+        if ($pinjam->status === 'batal') {
+            return back()->with('error', 'Peminjaman yang dibatalkan tidak dapat diubah statusnya.');
+        }
+
+        $barang = $pinjam->barang;
+
+        if ($newStatus === 'dikembalikan') {
+            $barang->stok += $pinjam->jumlah_pinjam;
+        }
+
+        if ($newStatus === 'dipinjam') {
+            if ($barang->stok < $pinjam->jumlah_pinjam) {
+                return back()->with('error', 'Stok barang tidak mencukupi untuk mengubah status menjadi dipinjam.');
+            }
+
+            $barang->stok -= $pinjam->jumlah_pinjam;
+        }
+
+        $barang->save();
+        $pinjam->update(['status' => $newStatus]);
+
+        return back()->with('success', 'Status peminjaman berhasil diubah.');
+    }
+
     public function destroy(Peminjaman $pinjam)
     {
         // Check if user is logged in first
