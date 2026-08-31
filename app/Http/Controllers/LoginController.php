@@ -16,22 +16,27 @@ class LoginController extends Controller
     public function authenticate(Request $request)
     {
         $credentials = $request->validate([
-            'email' => 'required|email',
+            'username' => 'required',
             'password' => 'required'
         ]);
 
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
+        $user = \App\Models\User::where('username', $credentials['username'])->first();
 
-            // Check if user is admin
-            if (Auth::user()->is_admin) {
-                return redirect()->intended('/pinjam')->with('success', 'Welcome back, Admin!');
-            }
-
-            return redirect()->intended('/pinjam/form');
+        if (!$user) {
+            return back()->with('loginError', 'Username tidak ditemukan.');
         }
 
-        return back()->with('loginError', 'Login failed!');
+        if (!Auth::attempt(['username' => $credentials['username'], 'password' => $credentials['password']], true)) {
+            return back()->with('loginError', 'Password salah.');
+        }
+
+        $request->session()->regenerate();
+
+        if (Auth::user()->is_admin) {
+            return redirect()->intended('/pinjam')->with('success', 'Login berhasil. Selamat datang, Admin!');
+        }
+
+        return redirect()->intended('/pinjam/form')->with('success', 'Login berhasil. Selamat datang!');
     }
     public function logout(Request $request)
     {

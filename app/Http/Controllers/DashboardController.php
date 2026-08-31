@@ -14,9 +14,10 @@ class DashboardController extends Controller
         return view('dashboard.index', [
             'title' => 'Dashboard',
             'barangs' => $barangs,
-            'filters' => $request->only(['search', 'kondisi', 'lokasi']),
+            'filters' => $request->only(['search', 'kondisi', 'lokasi', 'jenis']),
             'kondisiOptions' => Barang::select('kondisi')->distinct()->orderBy('kondisi')->pluck('kondisi'),
             'lokasiOptions' => Barang::select('lokasi')->distinct()->orderBy('lokasi')->pluck('lokasi'),
+            'jenisOptions' => Barang::select('jenis')->distinct()->orderBy('jenis')->pluck('jenis'),
         ]);
     }
 
@@ -25,7 +26,7 @@ class DashboardController extends Controller
         return view('dashboard.print', [
             'title' => 'Print Data Barang',
             'barangs' => $this->filterBarang($request)->latest()->get(),
-            'filters' => $request->only(['search', 'kondisi', 'lokasi']),
+            'filters' => $request->only(['search', 'kondisi', 'lokasi', 'jenis']),
         ]);
     }
 
@@ -47,6 +48,9 @@ class DashboardController extends Controller
             })
             ->when($request->filled('lokasi'), function ($query) use ($request) {
                 $query->where('lokasi', $request->lokasi);
+            })
+            ->when($request->filled('jenis'), function ($query) use ($request) {
+                $query->where('jenis', $request->jenis);
             });
     }
 
@@ -58,6 +62,7 @@ class DashboardController extends Controller
             'merk' => 'required',
             'type' => 'required',
             'spesifikasi' => 'required',
+            'jenis' => 'required',
             'stok' => 'required|numeric',
             'satuan' => 'required',
             'lokasi' => 'required',
@@ -95,6 +100,7 @@ class DashboardController extends Controller
             'merk' => 'required',
             'type' => 'required',
             'spesifikasi' => 'required',
+            'jenis' => 'required',
             'stok' => 'required|numeric',
             'satuan' => 'required',
             'lokasi' => 'required',

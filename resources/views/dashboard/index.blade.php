@@ -2,7 +2,7 @@
 
 @section('container')
     <div class="container mt-4">
-        @if(session()->has('success'))
+        @if (session()->has('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 {{ session('success') }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -15,7 +15,8 @@
                     <div class="card-body">
                         <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
                             <h5 class="card-title mb-0">DATA BARANG</h5>
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addBarangModal">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#addBarangModal">
                                 <i class="bi bi-plus-circle"></i> Tambah Barang
                             </button>
                         </div>
@@ -31,7 +32,8 @@
                                 <select class="form-select" id="kondisi" name="kondisi">
                                     <option value="">Semua Kondisi</option>
                                     @foreach ($kondisiOptions as $kondisi)
-                                        <option value="{{ $kondisi }}" {{ ($filters['kondisi'] ?? '') == $kondisi ? 'selected' : '' }}>
+                                        <option value="{{ $kondisi }}"
+                                            {{ ($filters['kondisi'] ?? '') == $kondisi ? 'selected' : '' }}>
                                             {{ $kondisi }}
                                         </option>
                                     @endforeach
@@ -42,8 +44,21 @@
                                 <select class="form-select" id="lokasi" name="lokasi">
                                     <option value="">Semua Lokasi</option>
                                     @foreach ($lokasiOptions as $lokasi)
-                                        <option value="{{ $lokasi }}" {{ ($filters['lokasi'] ?? '') == $lokasi ? 'selected' : '' }}>
+                                        <option value="{{ $lokasi }}"
+                                            {{ ($filters['lokasi'] ?? '') == $lokasi ? 'selected' : '' }}>
                                             {{ $lokasi }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="jenis" class="form-label">Filter Jenis</label>
+                                <select class="form-select" id="jenis" name="jenis">
+                                    <option value="">Semua Jenis</option>
+                                    @foreach ($jenisOptions as $jenis)
+                                        <option value="{{ $jenis }}"
+                                            {{ ($filters['jenis'] ?? '') == $jenis ? 'selected' : '' }}>
+                                            {{ $jenis }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -57,7 +72,8 @@
                                 <a href="/dashboard" class="btn btn-outline-secondary">
                                     <i class="bi bi-arrow-clockwise"></i> Reset
                                 </a>
-                                <a href="{{ route('dashboard.print', request()->query()) }}" target="_blank" class="btn btn-outline-dark">
+                                <a href="{{ route('dashboard.print', request()->query()) }}" target="_blank"
+                                    class="btn btn-outline-dark">
                                     <i class="bi bi-printer"></i> Print Sesuai Filter
                                 </a>
                             </div>
@@ -72,40 +88,46 @@
                                         <th>Nama Barang</th>
                                         <th>Merk</th>
                                         <th>Type</th>
+                                        <th>Jenis</th>
                                         <th>Stok</th>
-                                        <th>Action</th>     
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @forelse ($barangs as $barang)
-                                    <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $barang->kode_barang }}</td>
-                                        <td>{{ $barang->nama_barang }}</td>
-                                        <td>{{ $barang->merk }}</td>
-                                        <td>{{ $barang->type }}</td>
-                                        <td>{{ $barang->stok }}</td>
-                                        <td>
-                                            <a href="/dashboard/{{ $barang->id }}" class="badge bg-info text-decoration-none">
-                                                <i class="bi bi-eye"></i> Detail
-                                            </a>
-                                            <a href="/dashboard/{{ $barang->id }}/edit" class="badge bg-warning text-decoration-none">
-                                                <i class="bi bi-pencil"></i> Edit
-                                            </a>
-                                            <form action="/dashboard/{{ $barang->id }}" method="post" class="d-inline">
-                                                @method('delete')
-                                                @csrf
-                                                <button class="badge bg-danger border-0" onclick="return confirm('Yakin ingin menghapus data?')">
-                                                    <i class="bi bi-trash"></i> Hapus
-                                                </button>
-                                            </form> 
-                                        </td>
-                                    </tr>
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $barang->kode_barang }}</td>
+                                            <td>{{ $barang->nama_barang }}</td>
+                                            <td>{{ $barang->merk }}</td>
+                                            <td>{{ $barang->type }}</td>
+                                            <td>{{ $barang->jenis ?? 'Tidak Diketahui' }}</td>
+                                            <td>{{ $barang->stok }}</td>
+                                            <td>
+                                                <a href="/dashboard/{{ $barang->id }}"
+                                                    class="badge bg-info text-decoration-none">
+                                                    <i class="bi bi-eye"></i> Detail
+                                                </a>
+                                                <a href="/dashboard/{{ $barang->id }}/edit"
+                                                    class="badge bg-warning text-decoration-none">
+                                                    <i class="bi bi-pencil"></i> Edit
+                                                </a>
+                                                <form action="/dashboard/{{ $barang->id }}" method="post"
+                                                    class="d-inline">
+                                                    @method('delete')
+                                                    @csrf
+                                                    <button class="badge bg-danger border-0"
+                                                        onclick="return confirm('Yakin ingin menghapus data?')">
+                                                        <i class="bi bi-trash"></i> Hapus
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
                                     @empty
-                                    <tr>
-                                        <td colspan="7" class="text-center">Data barang tidak ditemukan</td>
-                                    </tr>
-                                    @endforelse 
+                                        <tr>
+                                            <td colspan="8" class="text-center">Data barang tidak ditemukan</td>
+                                        </tr>
+                                    @endforelse
                                 </tbody>
                             </table>
                         </div>
@@ -130,7 +152,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="kode_barang">Kode Barang</label>
-                                    <input type="text" class="form-control @error('kode_barang') is-invalid @enderror" 
+                                    <input type="text" class="form-control @error('kode_barang') is-invalid @enderror"
                                         id="kode_barang" name="kode_barang" required value="{{ old('kode_barang') }}">
                                     @error('kode_barang')
                                         <div class="invalid-feedback">
@@ -142,7 +164,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="nama_barang">Nama Barang</label>
-                                    <input type="text" class="form-control @error('nama_barang') is-invalid @enderror" 
+                                    <input type="text" class="form-control @error('nama_barang') is-invalid @enderror"
                                         id="nama_barang" name="nama_barang" required value="{{ old('nama_barang') }}">
                                     @error('nama_barang')
                                         <div class="invalid-feedback">
@@ -156,7 +178,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="merk">Merk</label>
-                                    <input type="text" class="form-control @error('merk') is-invalid @enderror" 
+                                    <input type="text" class="form-control @error('merk') is-invalid @enderror"
                                         id="merk" name="merk" required value="{{ old('merk') }}">
                                     @error('merk')
                                         <div class="invalid-feedback">
@@ -168,7 +190,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="type">Type</label>
-                                    <input type="text" class="form-control @error('type') is-invalid @enderror" 
+                                    <input type="text" class="form-control @error('type') is-invalid @enderror"
                                         id="type" name="type" required value="{{ old('type') }}">
                                     @error('type')
                                         <div class="invalid-feedback">
@@ -182,8 +204,8 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="spesifikasi">Spesifikasi</label>
-                                    <textarea class="form-control @error('spesifikasi') is-invalid @enderror" 
-                                        id="spesifikasi" name="spesifikasi" rows="3" required>{{ old('spesifikasi') }}</textarea>
+                                    <textarea class="form-control @error('spesifikasi') is-invalid @enderror" id="spesifikasi" name="spesifikasi"
+                                        rows="3" required>{{ old('spesifikasi') }}</textarea>
                                     @error('spesifikasi')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -193,10 +215,10 @@
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="stok">Stok</label>
-                                    <input type="number" class="form-control @error('stok') is-invalid @enderror" 
+                                    <input type="number" class="form-control @error('stok') is-invalid @enderror"
                                         id="stok" name="stok" required value="{{ old('stok') }}">
                                     @error('stok')
                                         <div class="invalid-feedback">
@@ -205,10 +227,10 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="satuan">Satuan</label>
-                                    <input type="text" class="form-control @error('satuan') is-invalid @enderror" 
+                                    <input type="text" class="form-control @error('satuan') is-invalid @enderror"
                                         id="satuan" name="satuan" required value="{{ old('satuan') }}">
                                     @error('satuan')
                                         <div class="invalid-feedback">
@@ -217,15 +239,18 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="kondisi">Kondisi</label>
-                                    <select class="form-control @error('kondisi') is-invalid @enderror" 
-                                        id="kondisi" name="kondisi" required>
+                                    <select class="form-control @error('kondisi') is-invalid @enderror" id="kondisi"
+                                        name="kondisi" required>
                                         <option value="">Pilih Kondisi</option>
-                                        <option value="Baik" {{ old('kondisi') == 'Baik' ? 'selected' : '' }}>Baik</option>
-                                        <option value="Rusak Ringan" {{ old('kondisi') == 'Rusak Ringan' ? 'selected' : '' }}>Rusak Ringan</option>
-                                        <option value="Rusak Berat" {{ old('kondisi') == 'Rusak Berat' ? 'selected' : '' }}>Rusak Berat</option>
+                                        <option value="Baik" {{ old('kondisi') == 'Baik' ? 'selected' : '' }}>Baik
+                                        </option>
+                                        <option value="Rusak Ringan"
+                                            {{ old('kondisi') == 'Rusak Ringan' ? 'selected' : '' }}>Rusak Ringan</option>
+                                        <option value="Rusak Berat"
+                                            {{ old('kondisi') == 'Rusak Berat' ? 'selected' : '' }}>Rusak Berat</option>
                                     </select>
                                     @error('kondisi')
                                         <div class="invalid-feedback">
@@ -234,12 +259,33 @@
                                     @enderror
                                 </div>
                             </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="jenis">Jenis</label>
+                                    <select class="form-control @error('jenis') is-invalid @enderror" id="jenis"
+                                        name="jenis" required>
+                                        <option value="">Pilih Jenis</option>
+                                        <option value="Dapat Dipinjam"
+                                            {{ old('jenis') == 'Dapat Dipinjam' ? 'selected' : '' }}>Dapat Dipinjam
+                                        </option>
+                                        <option value="Tidak Dapat Dipinjamkan"
+                                            {{ old('jenis') == 'Tidak Dapat Dipinjamkan' ? 'selected' : '' }}>Tidak Dapat
+                                            Dipinjamkan</option>
+                                    </select>
+                                    @error('jenis')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
                         </div>
+
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="lokasi">Lokasi</label>
-                                    <input type="text" class="form-control @error('lokasi') is-invalid @enderror" 
+                                    <input type="text" class="form-control @error('lokasi') is-invalid @enderror"
                                         id="lokasi" name="lokasi" required value="{{ old('lokasi') }}">
                                     @error('lokasi')
                                         <div class="invalid-feedback">
@@ -251,7 +297,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="keterangan">Keterangan</label>
-                                    <input type="text" class="form-control @error('keterangan') is-invalid @enderror" 
+                                    <input type="text" class="form-control @error('keterangan') is-invalid @enderror"
                                         id="keterangan" name="keterangan" value="{{ old('keterangan') }}">
                                     @error('keterangan')
                                         <div class="invalid-feedback">
@@ -270,4 +316,4 @@
             </div>
         </div>
     </div>
-@endsection 
+@endsection

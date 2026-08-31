@@ -35,7 +35,8 @@ class PinjamController extends Controller
         // For regular users, show their borrowing history and the form
         return view('pinjam.form', [
             'title' => 'Form Peminjaman',
-            'barangs' => Barang::where('stok', '>', 0)->get(),
+            // Only show items that have stock and are borrowable
+            'barangs' => Barang::where('stok', '>', 0)->where('jenis', 'Dapat Dipinjam')->get(),
             'peminjaman' => Peminjaman::where('user_id', Auth::id())
                 ->with('barang')
                 ->latest()
@@ -56,6 +57,12 @@ class PinjamController extends Controller
         ]);
 
         $barang = Barang::find($request->barang_id);
+
+        // Ensure the selected item is borrowable
+        if ($barang && ($barang->jenis ?? '') !== 'Dapat Dipinjam') {
+            return back()->withInput()
+                ->withErrors(['barang_id' => 'Barang ini tidak dapat dipinjamkan.']);
+        }
 
         if ($barang->stok < $request->jumlah_pinjam) {
             return back()->withInput()

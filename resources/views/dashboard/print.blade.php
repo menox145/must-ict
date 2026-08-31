@@ -35,7 +35,8 @@
             <strong>Filter:</strong>
             Search: {{ $filters['search'] ?? '-' }},
             Kondisi: {{ $filters['kondisi'] ?? '-' }},
-            Lokasi: {{ $filters['lokasi'] ?? '-' }}
+            Lokasi: {{ $filters['lokasi'] ?? '-' }},
+            Jenis: {{ $filters['jenis'] ?? '-' }}
         </div>
 
         <table class="table table-bordered table-sm">
@@ -46,6 +47,7 @@
                     <th>Nama Barang</th>
                     <th>Merk</th>
                     <th>Type</th>
+                    <th>Jenis</th>
                     <th>Stok</th>
                     <th>Satuan</th>
                     <th>Kondisi</th>
@@ -61,6 +63,7 @@
                         <td>{{ $barang->nama_barang }}</td>
                         <td>{{ $barang->merk }}</td>
                         <td>{{ $barang->type }}</td>
+                        <td>{{ $barang->jenis ?? '-' }}</td>
                         <td>{{ $barang->stok }}</td>
                         <td>{{ $barang->satuan }}</td>
                         <td>{{ $barang->kondisi }}</td>
@@ -69,7 +72,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="10" class="text-center">Data barang tidak ditemukan</td>
+                        <td colspan="11" class="text-center">Data barang tidak ditemukan</td>
                     </tr>
                 @endforelse
             </tbody>

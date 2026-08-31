@@ -17,27 +17,23 @@ class RegisterController extends Controller
 
     public function store(Request $request)
     {
-        try {
-            $validatedData = $request->validate([
-                'name' => 'required|max:255',
-                'username' => ['required', 'min:3', 'max:255', 'unique:users'],
-                'email' => 'required|email:dns|unique:users',
-                'password' => 'required|min:5|max:255',
-                'unit_bagian' => 'required|in:dokter,perawat,it'
-            ]);
+        $validatedData = $request->validate([
+            'name' => 'required|max:255',
+            'username' => ['required', 'min:3', 'max:255', 'unique:users'],
+            'password' => 'required|min:5|max:255',
+            'unit_bagian' => 'required|in:dokter,perawat,it'
+        ]);
 
-            $validatedData['password'] = Hash::make($validatedData['password']);
-            $validatedData['is_admin'] = true;
+        $validatedData['password'] = Hash::make($validatedData['password']);
+        $validatedData['is_admin'] = true;
+        $validatedData['email'] = strtolower($validatedData['username']) . '@inventory.local';
 
-            $user = User::create($validatedData);
+        $user = User::create($validatedData);
 
-            if ($user) {
-                return redirect('/login')->with('success', 'Registration successful! Please login.');
-            }
-
-            return back()->with('error', 'Registration failed. Please try again.');
-        } catch (\Exception $e) {
-            return back()->with('error', 'An error occurred during registration. Please try again.');
+        if ($user) {
+            return redirect()->route('login')->with('success', 'Registration successful! Please login.');
         }
+
+        return back()->with('error', 'Registration failed. Please try again.');
     }
 }

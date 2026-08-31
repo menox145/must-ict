@@ -17,6 +17,7 @@ class Barang extends Model
         'merk',
         'type',
         'spesifikasi',
+        'jenis',
         'stok',
         'satuan',
         'lokasi',

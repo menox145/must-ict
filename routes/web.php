@@ -4,6 +4,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PinjamController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\WorksheetController;
 use App\Models\Barang;
 use App\Models\Peminjaman;
 use Illuminate\Support\Facades\Route;
@@ -13,11 +14,13 @@ use Illuminate\Support\Facades\Route;
 | Public Routes
 |--------------------------------------------------------------------------
 */
+
 Route::get('/', function () {
     return view('pinjam.public', [
         'title' => 'Home',
         'peminjaman' => Peminjaman::with(['barang', 'user'])->latest()->get(),
-        'barangs' => Barang::where('stok', '>', 0)->get(),
+        // Only show borrowable items on public home
+        'barangs' => Barang::where('stok', '>', 0)->where('jenis', 'Dapat Dipinjam')->get(),
     ]);
 })->middleware('guest');
 
@@ -55,4 +58,7 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/pinjam/{pinjam}/status', [PinjamController::class, 'updateStatus'])->name('pinjam.update-status');
     Route::post('/pinjam/{pinjam}/return', [PinjamController::class, 'return'])->name('pinjam.return');
     Route::delete('/pinjam/{pinjam}', [PinjamController::class, 'destroy'])->name('pinjam.destroy');
+
+    Route::resource('worksheet', WorksheetController::class);
+    Route::get('/worksheet/print/data', [WorksheetController::class, 'print'])->name('worksheet.print');
 });

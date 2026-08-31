@@ -40,13 +40,18 @@
                                 <select class="form-select @error('unit_bagian') is-invalid @enderror" id="unit_bagian"
                                     name="unit_bagian" required>
                                     <option value="">Pilih Unit/Bagian...</option>
-                                    <option value="ranap" {{ old('unit_bagian') == 'ranap' ? 'selected' : '' }}>Rawat Inap</option>
-                                    <option value="keuangan" {{ old('unit_bagian') == 'keuangan' ? 'selected' : '' }}>Keuangan</option>
-                                    <option value="rajal" {{ old('unit_bagian') == 'rajal' ? 'selected' : '' }}>Rawat Jalan</option>
-                                    <option value="adm" {{ old('unit_bagian') == 'adm' ? 'selected' : '' }}>Adm Medis</option>
+                                    <option value="ranap" {{ old('unit_bagian') == 'ranap' ? 'selected' : '' }}>Rawat Inap
+                                    </option>
+                                    <option value="keuangan" {{ old('unit_bagian') == 'keuangan' ? 'selected' : '' }}>
+                                        Keuangan</option>
+                                    <option value="rajal" {{ old('unit_bagian') == 'rajal' ? 'selected' : '' }}>Rawat Jalan
+                                    </option>
+                                    <option value="adm" {{ old('unit_bagian') == 'adm' ? 'selected' : '' }}>Adm Medis
+                                    </option>
                                     <option value="igd" {{ old('unit_bagian') == 'igd' ? 'selected' : '' }}>IGD</option>
                                     <option value="icu" {{ old('unit_bagian') == 'icu' ? 'selected' : '' }}>ICU</option>
-                                    <option value="Kedokteran" {{ old('unit_bagian') == 'Kedokteran' ? 'selected' : '' }}>Kedokteran</option>
+                                    <option value="Kedokteran" {{ old('unit_bagian') == 'Kedokteran' ? 'selected' : '' }}>
+                                        Kedokteran</option>
                                 </select>
                                 @error('unit_bagian')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -61,7 +66,8 @@
                                     @foreach ($barangs as $barang)
                                         <option value="{{ $barang->id }}"
                                             {{ old('barang_id') == $barang->id ? 'selected' : '' }}>
-                                            {{ $barang->nama_barang }} (Stok: {{ $barang->stok }})
+                                            {{ $barang->nama_barang }} (Stok: {{ $barang->stok }}) -
+                                            {{ $barang->jenis ?? '-' }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -73,8 +79,8 @@
                             <div class="mb-3">
                                 <label for="jumlah_pinjam" class="form-label">Jumlah Pinjam</label>
                                 <input type="number" class="form-control @error('jumlah_pinjam') is-invalid @enderror"
-                                    id="jumlah_pinjam" name="jumlah_pinjam" value="{{ old('jumlah_pinjam') }}" min="1"
-                                    required autocomplete="off">
+                                    id="jumlah_pinjam" name="jumlah_pinjam" value="{{ old('jumlah_pinjam') }}"
+                                    min="1" required autocomplete="off">
                                 @error('jumlah_pinjam')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -102,8 +108,8 @@
 
                             <div class="mb-3">
                                 <label for="keperluan" class="form-label">Keperluan</label>
-                                <textarea class="form-control @error('keperluan') is-invalid @enderror" id="keperluan" name="keperluan"
-                                    rows="3" required autocomplete="off">{{ old('keperluan') }}</textarea>
+                                <textarea class="form-control @error('keperluan') is-invalid @enderror" id="keperluan" name="keperluan" rows="3"
+                                    required autocomplete="off">{{ old('keperluan') }}</textarea>
                                 @error('keperluan')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -157,7 +163,8 @@
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    <a href="/pinjam/{{ $pinjam->id }}" class="badge bg-info text-decoration-none">
+                                                    <a href="/pinjam/{{ $pinjam->id }}"
+                                                        class="badge bg-info text-decoration-none">
                                                         <i class="bi bi-eye"></i> Detail
                                                     </a>
                                                 </td>
