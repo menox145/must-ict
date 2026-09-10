@@ -3,6 +3,10 @@
 use App\Models\User;
 use Illuminate\Support\Str;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
+uses(RefreshDatabase::class);
+
 it('registers a user without email and allows login with username', function () {
     $username = 'user' . Str::random(6);
 

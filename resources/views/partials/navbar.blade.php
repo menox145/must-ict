@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-success">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/login"><i class="bi bi-pc-display"></i> ICT RSPJ</a>
+        <a class="navbar-brand" href="/"><i class="bi bi-pc-display"></i> ICT RSPJ</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -8,7 +8,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/login"><i class="bi bi-house-door"></i>
+                    <a class="nav-link active" aria-current="page" href="/"><i class="bi bi-house-door"></i>
                         Home</a>
                 </li>
                 @auth
@@ -56,7 +56,7 @@
                     {{-- End akses semua user --}}
                 @else
                     <li class="nav-item">
-                        <a class="nav-link" href="/"><i class="bi bi-box-arrow-in-right"></i> Pinjam Barang</a>
+                        <a class="nav-link" href="/pinjam/public"><i class="bi bi-box-arrow-in-right"></i> Pinjam Barang</a>
                     </li>
                 @endauth
             </ul>

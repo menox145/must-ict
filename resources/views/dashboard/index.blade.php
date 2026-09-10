@@ -23,13 +23,13 @@
 
                         <form action="/dashboard" method="GET" class="row g-2 align-items-end mb-3">
                             <div class="col-md-4">
-                                <label for="search" class="form-label">Searching</label>
-                                <input type="text" class="form-control" id="search" name="search"
+                                <label for="filter_search" class="form-label">Searching</label>
+                                <input type="text" class="form-control" id="filter_search" name="search"
                                     value="{{ $filters['search'] ?? '' }}" placeholder="Kode, nama, merk, atau type">
                             </div>
                             <div class="col-md-3">
-                                <label for="kondisi" class="form-label">Filter Kondisi</label>
-                                <select class="form-select" id="kondisi" name="kondisi">
+                                <label for="filter_kondisi" class="form-label">Filter Kondisi</label>
+                                <select class="form-select" id="filter_kondisi" name="kondisi">
                                     <option value="">Semua Kondisi</option>
                                     @foreach ($kondisiOptions as $kondisi)
                                         <option value="{{ $kondisi }}"
@@ -40,8 +40,8 @@
                                 </select>
                             </div>
                             <div class="col-md-3">
-                                <label for="lokasi" class="form-label">Filter Lokasi</label>
-                                <select class="form-select" id="lokasi" name="lokasi">
+                                <label for="filter_lokasi" class="form-label">Filter Lokasi</label>
+                                <select class="form-select" id="filter_lokasi" name="lokasi">
                                     <option value="">Semua Lokasi</option>
                                     @foreach ($lokasiOptions as $lokasi)
                                         <option value="{{ $lokasi }}"
@@ -52,8 +52,8 @@
                                 </select>
                             </div>
                             <div class="col-md-3">
-                                <label for="jenis" class="form-label">Filter Jenis</label>
-                                <select class="form-select" id="jenis" name="jenis">
+                                <label for="filter_jenis" class="form-label">Filter Jenis</label>
+                                <select class="form-select" id="filter_jenis" name="jenis">
                                     <option value="">Semua Jenis</option>
                                     @foreach ($jenisOptions as $jenis)
                                         <option value="{{ $jenis }}"

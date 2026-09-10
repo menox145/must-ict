@@ -16,8 +16,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    return view('home', [
+        'title' => 'Dashboard ICT'
+    ]);
+});
+
+Route::get('/pinjam/public', function () {
     return view('pinjam.public', [
-        'title' => 'Home',
+        'title' => 'Peminjaman Umum',
         'peminjaman' => Peminjaman::with(['barang', 'user'])->latest()->get(),
         // Only show borrowable items on public home
         'barangs' => Barang::where('stok', '>', 0)->where('jenis', 'Dapat Dipinjam')->get(),
